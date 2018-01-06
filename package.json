@@ -1,0 +1,27 @@
+{
+  "name": "obut",
+  "version": "0.1.0",
+  "description": "Simple object utilities",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/s-leroux/obut.git"
+  },
+  "keywords": [
+    "object",
+    "utilities"
+  ],
+  "author": "Sylvain Leroux <sylvain@chicoree.fr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/s-leroux/obut/issues"
+  },
+  "homepage": "https://github.com/s-leroux/obut#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.1.0"
+  }
+}
