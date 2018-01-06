@@ -38,7 +38,8 @@ The model values are used for missing fields.
 
 
 ## Node version
-Tested with v6.6, v7.6 and v8.9
+Require NodeJS >= v7.0
+Tested with v7.0, v7.6 and v8.9
  
 ## License 
 
