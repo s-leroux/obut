@@ -18,7 +18,7 @@ A collection of object--and only objects--utilities.
 Return a copy of the object with all duplicate object references removed
 ("coverage tree").
 
-Duplicate objects a replaced with a reference construct similar to the
+Duplicate objects are replaced with a reference construct similar to the
 JSON Referece Draft (https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
 
 The reference field name can be changed using the refFieldName argument.

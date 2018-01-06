@@ -66,5 +66,14 @@ describe("coverage", () => {
     const expected = { a: { b: { c: { d: {$ref: "#/a/b"} }}}};
     assert.deepEqual(actual, expected);
   });
+  
+
+  it("should allow to change reference field name", () => {
+    const inner = {};
+    
+    const actual = obut.coverage({ a : inner, b: inner}, "#REF");
+    const expected = {a: inner, b: {"#REF": "#/a"}};
+    assert.deepEqual(actual, expected);
+  });
 
 });
