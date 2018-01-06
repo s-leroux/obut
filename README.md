@@ -23,6 +23,22 @@ JSON Referece Draft (https://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03).
 
 The reference field name can be changed using the refFieldName argument.
 
+```
+    const { coverage } = require('obut');
+
+    const inner = {};
+    const object = { a : inner, b: inner};
+    
+    // object now contains two references to the same inner object
+    
+    
+    const actual = coverage({ a : inner, b: inner});
+    console.log(actual);
+    
+    // one of the reference is replaced by a JSON path object.
+    // > { a: {}, b: { '$ref': '#/a' } }
+```
+
 ### obut.pick(object, desc)
 
 Yet another `pick` function to extract a subset of object properties.
