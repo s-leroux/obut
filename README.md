@@ -44,13 +44,74 @@ The reference field name can be changed using the refFieldName argument.
 Yet another `pick` function to extract a subset of object properties.
 
 This particular version is considering only object own properties.
-It performs a deep walk through the object.
-Non-existent properties are ignored. See `obut.norm` if you want a differnt behavior.
+It performs a deep walk through the description `desc` to extract
+the corresponding fields from `object`:
 
-### obut.norm(object, model)
+```
+    const { pick } = require('obut');
 
-Similar to `obut.pick` but using another object as a model.
-The model values are used for missing fields.
+    let original = { a: 1, b: { c: 3, d: 4 }, f: 6 };
+    let actual = pick(original, { a: 10, b: { d: 40 }});
+    console.log(actual);
+    
+    // > { a: 1, b: { d: 4 } }
+```
+
+In `object` a field set to `undefined` is handled the same way as
+a missing field, and the default value provided in `desc` is substituted.
+
+```
+    let original = { a: 1, b: { c: undefined, d: 4 }, f: 6 };
+    let actual = pick(original, { a: 10, b: { c: 30, d: 40, e: 50 }});
+    console.log(actual);
+    
+    // > { a: 1, b: { c: 30, d: 4, e: 50 } }
+```
+
+The `pick` function never produces an `undefined` value. So if a field of 
+`desc` is `undefined` if will be present in the output only if it was
+defined in the original object:
+
+```
+    let original = { a: 1, b: undefined };
+    let actual = pick(original, { a: undefined, b: undefined, f: undefined});
+    console.log(actual);
+    
+    // > { a: 1 } }
+```
+
+
+`null` is considered both as a value and as an object. When used in `desc`,
+a `null` value is used to copy a field verbatim, regardless if its type.
+The only exception is for undefined values, since the output of the `pick` function never contains an `undefined` field:
+
+```
+    let original = { a: 1, b: { c: undefined, d: 4 }, f: 6 };
+    let actual = pick(original, { a: 10, b: null, f: null, g: null });
+    console.log(actual);
+    
+    // > { a: 1, b: { d: 4 }, f: 6, g: null }
+```
+
+In the example above:
+ * the object `b` is copied, excluding the `undefined` value;
+ * the value `f` is copied;
+ * the missing `g` field is added with the `null` value.
+
+
+In `object` a field set to `null` is set to `null` in the result too, 
+regardless of the type of the corresponding field in `desc`.
+
+```
+    let original = { a: null, b: null, f: 6 };
+    let actual = pick(original, { a: 10, b: { c: 30 }});
+    console.log(actual);
+    
+    // > { a: null, b: null }
+```
+
+Except in the cases explained above, if a field is an _object_ in `desc` but 
+*not* in the original object, and error is thrown.
 
 
 ## Node version
