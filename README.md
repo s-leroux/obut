@@ -113,6 +113,23 @@ regardless of the type of the corresponding field in `desc`.
 Except in the cases explained above, if a field is an _object_ in `desc` but 
 *not* in the original object, and error is thrown.
 
+#### Working with arrays
+`obut.pick` handles array mostly like objects with numerical indexes. So you
+can write something like that:
+
+```
+    obut.pick([1,2,3],[10,20,30,40])
+    // > [ 1, 2, 3, 40 ]
+```
+
+You can also mix objects and arrays, `obut.pick` will be able to match fields.
+Useful if you want a sparse array containing a sub-set of the original array.
+
+```
+    obut.pick([1,2,3],{ 0:0, 5:50}); // BEWARE: in JS arrays are 0-based!
+    // > [ 1, <4 empty items>, 50 ]
+```
+
 
 ## Node version
 Require NodeJS >= v7.0
