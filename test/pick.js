@@ -109,5 +109,34 @@ describe("pick", () => {
     assert.deepEqual(object, original);
   });
 
+  it("should produces arrays when possible", () => {
+    const object = { "a": [0,1,2,3] };
+
+    assert.deepEqual(obut.pick(object,object), object);
+  });
+
+  it("should preserve array sparseness", () => {
+    const array = [];
+    array[20] = 20;
+    
+    const object = { "a": array };
+    const actual = obut.pick(object,object);
+
+    assert.equal(
+      actual.a.reduce(x => x+1, 0),
+      array.reduce(x => x+1, 0),
+    );
+  });
+
+  it("should pick array items", () => {
+    const object = { "a": [0,1,2,3] };
+    const desc = { a: { 0: 0, 5: 50 }};
+    const expected = { a: [] };
+    expected.a[0] = 0;
+    expected.a[5] = 50;
+    
+    assert.deepEqual(obut.pick(object,desc), expected);
+  });
+
 
 });
