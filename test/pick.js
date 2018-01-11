@@ -124,7 +124,7 @@ describe("pick", () => {
 
     assert.equal(
       actual.a.reduce(x => x+1, 0),
-      array.reduce(x => x+1, 0),
+      array.reduce(x => x+1, 0)
     );
   });
 
