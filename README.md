@@ -9,7 +9,7 @@ A collection of object--and only objects--utilities.
 ## Installation
 
     npm install --save obut
-    
+
 
 ## API
 
@@ -28,16 +28,38 @@ The reference field name can be changed using the refFieldName argument.
 
     const inner = {};
     const object = { a : inner, b: inner};
-    
+
     // object now contains two references to the same inner object
-    
-    
+
+
     const actual = coverage({ a : inner, b: inner});
     console.log(actual);
-    
+
     // one of the reference is replaced by a JSON path object.
     // > { a: {}, b: { '$ref': '#/a' } }
 ```
+
+### obut.filter(object, test)
+
+_New in 0.2.3_
+
+Return a new object containing only own properties of `object` having passed `test`.
+
+```
+    const { filter } = require('obut');
+
+    let original = { a: 1, b: undefined, c: { d: undefined } };
+    let actual = filter(original, (key, value) => typeof value !== 'undefined');
+    console.log(actual);
+
+    // > { a: 1, c: { d: undefined } }
+```
+
+### obut.defined(object)
+
+_New in 0.2.3_
+
+Synonym for `(object) => _filter(object, (key, value) => (typeof value !== 'undefined'))`
 
 ### obut.pick(object, desc)
 
@@ -53,7 +75,7 @@ the corresponding fields from `object`:
     let original = { a: 1, b: { c: 3, d: 4 }, f: 6 };
     let actual = pick(original, { a: 10, b: { d: 40 }});
     console.log(actual);
-    
+
     // > { a: 1, b: { d: 4 } }
 ```
 
@@ -64,11 +86,11 @@ a missing field, and the default value provided in `desc` is substituted.
     let original = { a: 1, b: { c: undefined, d: 4 }, f: 6 };
     let actual = pick(original, { a: 10, b: { c: 30, d: 40, e: 50 }});
     console.log(actual);
-    
+
     // > { a: 1, b: { c: 30, d: 4, e: 50 } }
 ```
 
-The `pick` function never produces an `undefined` value. So if a field of 
+The `pick` function never produces an `undefined` value. So if a field of
 `desc` is `undefined` if will be present in the output only if it was
 defined in the original object:
 
@@ -76,7 +98,7 @@ defined in the original object:
     let original = { a: 1, b: undefined };
     let actual = pick(original, { a: undefined, b: undefined, f: undefined});
     console.log(actual);
-    
+
     // > { a: 1 } }
 ```
 
@@ -89,7 +111,7 @@ The only exception is for undefined values, since the output of the `pick` funct
     let original = { a: 1, b: { c: undefined, d: 4 }, f: 6 };
     let actual = pick(original, { a: 10, b: null, f: null, g: null });
     console.log(actual);
-    
+
     // > { a: 1, b: { d: 4 }, f: 6, g: null }
 ```
 
@@ -99,18 +121,18 @@ In the example above:
  * the missing `g` field is added with the `null` value.
 
 
-In `object` a field set to `null` is set to `null` in the result too, 
+In `object` a field set to `null` is set to `null` in the result too,
 regardless of the type of the corresponding field in `desc`.
 
 ```
     let original = { a: null, b: null, f: 6 };
     let actual = pick(original, { a: 10, b: { c: 30 }});
     console.log(actual);
-    
+
     // > { a: null, b: null }
 ```
 
-Except in the cases explained above, if a field is an _object_ in `desc` but 
+Except in the cases explained above, if a field is an _object_ in `desc` but
 *not* in the original object, and error is thrown.
 
 #### Working with arrays
@@ -134,8 +156,8 @@ Useful if you want a sparse array containing a sub-set of the original array.
 ## Node version
 Require NodeJS >= v7.0
 Tested with v7.0, v7.6 and v8.9
- 
-## License 
+
+## License
 
 (The MIT License)
 
